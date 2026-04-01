@@ -1,4 +1,4 @@
-# wsz-idea · AI提示词助手 + B端产品设计顾问
+# wsc-idea · AI提示词助手 + B端产品设计顾问
 
 > 一个 Claude Code Skill，把你的碎片想法转化为可直接使用的 AI 提示词，同时提供专业的 B 端产品设计咨询。
 
@@ -6,7 +6,7 @@
 
 ## 工作流程
 
-![wsz-idea 逻辑图](flow-diagram.png)
+![wsc-idea 逻辑图](flow-diagram.png)
 
 ---
 
@@ -102,7 +102,7 @@
 ## 文件结构
 
 ```
-wsz-idea/
+wsc-idea/
 ├── SKILL.md                          # 技能主配置（场景识别 + 输出格式）
 ├── refine.json                       # 触发词与场景映射配置
 │
