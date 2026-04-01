@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>wsz-idea · 逻辑图</title>
+<style>
+  /* ── Design Tokens (Professional preset from ui-builder) ── */
+  :root {
+    --bg-page:      #f5f6f8;
+    --bg-card:      #ffffff;
+    --bg-subtle:    #f9fafb;
+    --border-1:     #e4e7ed;
+    --border-2:     #d0d5dd;
+    --text-primary: #111827;
+    --text-second:  #4b5563;
+    --text-third:   #9ca3af;
+    --text-label:   #6b7280;
+
+    /* Brand primary: #165DFF */
+    --primary-1:    #eff4ff;
+    --primary-3:    #c3d7ff;
+    --primary-6:    #165DFF;
+    --primary-7:    #0d4fd6;
+
+    /* Scene accent colors (light-mode) */
+    --img-bg:  #f0fdf4; --img-bd:  #bbf7d0; --img-tx:  #065f46; --img-tag: #10b981;
+    --ui-bg:   #eff6ff; --ui-bd:   #bfdbfe; --ui-tx:   #1e40af; --ui-tag:  #3b82f6;
+    --fx-bg:   #fdf4ff; --fx-bd:   #e9d5ff; --fx-tx:   #6b21a8; --fx-tag:  #a855f7;
+    --vid-bg:  #fffbeb; --vid-bd:  #fde68a; --vid-tx:  #92400e; --vid-tag: #f59e0b;
+    --prj-bg:  #fff1f2; --prj-bd:  #fecdd3; --prj-tx:  #9f1239; --prj-tag: #f43f5e;
+
+    /* Mode colors */
+    --mode-a-bg: #fffbeb; --mode-a-bd: #fde68a; --mode-a-tx: #92400e;
+    --mode-b-bg: #f0fdf4; --mode-b-bd: #bbf7d0; --mode-b-tx: #065f46;
+    --mode-c-bg: #eff6ff; --mode-c-bd: #bfdbfe; --mode-c-tx: #1e40af;
+
+    --radius-card: 6px;
+    --radius-btn:  4px;
+    --shadow-sm:   0 1px 3px rgba(0,0,0,0.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    padding: 48px 24px 80px;
+    min-width: 960px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+  }
+  .header .sub {
+    font-size: 12px;
+    color: var(--text-third);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Canvas ── */
+  .canvas {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ── 通用卡片 ── */
+  .box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-card);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .lbl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-third);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .ttl {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  /* ── 箭头 ── */
+  .arrow {
+    text-align: center;
+    color: var(--border-2);
+    font-size: 18px;
+    margin: 6px 0;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .arrow-label {
+    display: block;
+    font-size: 10px;
+    color: var(--text-third);
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── 分割线标题 ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-third);
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-1);
+  }
+
+  /* ── 入口胶囊 ── */
+  .entry {
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .pill {
+    display: inline-block;
+    padding: 12px 40px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--primary-6);
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary-6);
+    box-shadow: 0 0 0 3px var(--primary-1);
+  }
+
+  /* ── Tag chips ── */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 9px;
+    background: var(--primary-1);
+    border: 1px solid var(--primary-3);
+    border-radius: var(--radius-btn);
+    font-size: 11px;
+    color: var(--primary-7);
+  }
+
+  /* ── 3种模式 ── */
+  .modes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .mode {
+    border-radius: var(--radius-card);
+    padding: 14px 16px;
+    border: 1px solid;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .mode-a { background: var(--mode-a-bg); border-color: var(--mode-a-bd); }
+  .mode-b { background: var(--mode-b-bg); border-color: var(--mode-b-bd); }
+  .mode-c { background: var(--mode-c-bg); border-color: var(--mode-c-bd); }
+
+  .mode-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+  }
+  .mode-a .mode-tag { background: var(--mode-a-bg); border: 1px solid var(--mode-a-bd); color: var(--mode-a-tx); }
+  .mode-b .mode-tag { background: var(--mode-b-bg); border: 1px solid var(--mode-b-bd); color: var(--mode-b-tx); }
+  .mode-c .mode-tag { background: var(--mode-c-bg); border: 1px solid var(--mode-c-bd); color: var(--mode-c-tx); }
+
+  .mode .mode-title { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .mode-a .mode-title { color: var(--mode-a-tx); }
+  .mode-b .mode-title { color: var(--mode-b-tx); }
+  .mode-c .mode-title { color: var(--mode-c-tx); }
+
+  .mode .mode-desc { color: var(--text-second); font-size: 11.5px; }
+  .mode .mode-hint { font-size: 10.5px; color: var(--text-third); margin-top: 6px; }
+
+  /* ── 5大场景 ── */
+  .scenes {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .sc {
+    border-radius: var(--radius-card);
+    padding: 12px 8px;
+    text-align: center;
+    border: 1px solid;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .sc-img { background: var(--img-bg); border-color: var(--img-bd); }
+  .sc-ui  { background: var(--ui-bg);  border-color: var(--ui-bd); }
+  .sc-fx  { background: var(--fx-bg);  border-color: var(--fx-bd); }
+  .sc-vid { background: var(--vid-bg); border-color: var(--vid-bd); }
+  .sc-prj { background: var(--prj-bg); border-color: var(--prj-bd); }
+
+  .sc .ic { font-size: 22px; display: block; margin-bottom: 4px; }
+  .sc .p  { font-size: 9.5px; color: var(--text-third); font-weight: 600; letter-spacing: 0.06em; }
+  .sc .nm { font-weight: 700; font-size: 12.5px; margin: 3px 0 3px; }
+  .sc-img .nm { color: var(--img-tx); }
+  .sc-ui  .nm { color: var(--ui-tx);  }
+  .sc-fx  .nm { color: var(--fx-tx);  }
+  .sc-vid .nm { color: var(--vid-tx); }
+  .sc-prj .nm { color: var(--prj-tx); }
+  .sc .kw { font-size: 10.5px; color: var(--text-third); line-height: 1.5; }
+
+  /* 冲突注意 */
+  .note {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-card);
+    padding: 9px 14px;
+    font-size: 11.5px;
+    color: var(--text-second);
+    margin-top: 6px;
+  }
+  .note strong { color: var(--text-primary); }
+
+  /* ── 记忆文件 ── */
+  .memgrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    margin-top: 10px;
+  }
+  .mem {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-btn);
+    padding: 8px 10px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--text-second);
+  }
+  .mem .fn {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 10.5px;
+    color: var(--primary-6);
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  /* ── 输出格式 ── */
+  .formats {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 7px;
+    margin-bottom: 8px;
+  }
+  .fmt {
+    border-radius: var(--radius-card);
+    padding: 10px 10px;
+    font-size: 11px;
+    line-height: 1.7;
+    border: 1px solid;
+  }
+  .fmt-img { background: var(--img-bg); border-color: var(--img-bd); }
+  .fmt-ui  { background: var(--ui-bg);  border-color: var(--ui-bd); }
+  .fmt-ui2 { background: var(--ui-bg);  border-color: var(--ui-bd); border-style: dashed; }
+  .fmt-fx  { background: var(--fx-bg);  border-color: var(--fx-bd); }
+  .fmt-vid { background: var(--vid-bg); border-color: var(--vid-bd); }
+  .fmt-prj { background: var(--prj-bg); border-color: var(--prj-bd); }
+
+  .fmt .fh {
+    font-weight: 700;
+    font-size: 11.5px;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+  .fmt ol  { padding-left: 14px; color: var(--text-second); }
+  .fmt ol li { margin-bottom: 1px; }
+
+  /* 特殊说明 */
+  .special {
+    background: var(--ui-bg);
+    border: 1px solid var(--ui-bd);
+    border-radius: var(--radius-card);
+    padding: 9px 14px;
+    font-size: 11.5px;
+    color: var(--ui-tx);
+    margin-top: 6px;
+  }
+
+  /* ── 输出节点 ── */
+  .output {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .out-pill {
+    display: inline-block;
+    padding: 12px 40px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--img-tag);
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--img-tx);
+    box-shadow: 0 0 0 3px var(--img-bg);
+  }
+
+  .codebox-hint {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-third);
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>wsz-idea · 逻辑图</h1>
+  <div class="sub">AI 提示词辅助助手 · 5 类场景 · 3 种输出模式</div>
+</div>
+
+<div class="canvas">
+
+  <!-- 入口 -->
+  <div class="entry">
+    <div class="pill">💬 用户输入 — 口语化 / 碎片化描述</div>
+  </div>
+  <div class="arrow">↓</div>
+
+  <!-- Step 1 -->
+  <div class="box">
+    <div class="lbl">Step 1 · 触发识别</div>
+    <div class="ttl">关键词匹配 + 场景嗅探</div>
+    <div class="tags">
+      <span class="tag">帮我写提示词</span>
+      <span class="tag">优化这个提示词</span>
+      <span class="tag">我想生成图片 / 视频 / 界面</span>
+      <span class="tag">帮我整理需求</span>
+      <span class="tag">提示词</span>
+      <span class="tag">prompt</span>
+      <span class="tag">产品有问题</span>
+      <span class="tag">交互体验不好</span>
+      <span class="tag">竞品分析</span>
+      <span class="tag">PRD</span>
+    </div>
+  </div>
+  <div class="arrow">↓</div>
+
+  <!-- Step 2 -->
+  <div class="divider">Step 2 · 信息量判断 — 选择输出模式</div>
+  <div class="modes">
+    <div class="mode mode-a">
+      <div class="mode-tag">模式 A — 信息不足</div>
+      <div class="mode-title">追问优先</div>
+      <div class="mode-desc">追问 2~3 个关键问题<br>优先给选项而非开放问答</div>
+      <div class="mode-hint">→ 补充完整后进入模式 B</div>
+    </div>
+    <div class="mode mode-c">
+      <div class="mode-tag">模式 C — 没想清楚</div>
+      <div class="mode-title">创意发散</div>
+      <div class="mode-desc">给 3 个方向 + 一句话说明<br>引导用户做选择</div>
+      <div class="mode-hint">触发：脑暴 / 随便 / 给几个方向</div>
+    </div>
+    <div class="mode mode-b">
+      <div class="mode-tag">模式 B — 信息充足</div>
+      <div class="mode-title">直接生成</div>
+      <div class="mode-desc">按场景格式结构化输出<br>提示词必须放进代码块</div>
+      <div class="mode-hint">↓ 继续场景识别</div>
+    </div>
+  </div>
+  <div class="arrow">↓ <span class="arrow-label">模式 B</span></div>
+
+  <!-- Step 3 -->
+  <div class="divider">Step 3 · 场景识别（优先级 P1 → P5）</div>
+  <div class="scenes">
+    <div class="sc sc-img">
+      <span class="ic">🎨</span>
+      <div class="p">P1 最高</div>
+      <div class="nm">图片生成</div>
+      <div class="kw">海报·插画·KV<br>构图·光影·渲染</div>
+    </div>
+    <div class="sc sc-ui">
+      <span class="ic">🖥</span>
+      <div class="p">P2</div>
+      <div class="nm">UI 界面</div>
+      <div class="kw">Make·Stitch·Figma<br>页面·看板·设计稿</div>
+    </div>
+    <div class="sc sc-fx">
+      <span class="ic">✨</span>
+      <div class="p">P3</div>
+      <div class="nm">前端动效</div>
+      <div class="kw">滚动·悬浮·粒子<br>切换·拖拽·丝滑</div>
+    </div>
+    <div class="sc sc-vid">
+      <span class="ic">🎬</span>
+      <div class="p">P4</div>
+      <div class="nm">视频 / 动画</div>
+      <div class="kw">视频·运镜·镜头<br>转场·分镜·动画</div>
+    </div>
+    <div class="sc sc-prj">
+      <span class="ic">📋</span>
+      <div class="p">P5</div>
+      <div class="nm">产品顾问</div>
+      <div class="kw">需求·功能·交互<br>竞品·评审·PRD</div>
+    </div>
+  </div>
+  <div class="note">
+    ⚠ <strong>冲突判断：</strong>UI + 动效同时命中 → 重点在页面结构走 P2，重点在动画逻辑走 P3 &nbsp;|&nbsp; 用户要「一整套」→ 走 P5
+  </div>
+  <div class="arrow" style="margin-top:10px;">↓</div>
+
+  <!-- Step 4 -->
+  <div class="box">
+    <div class="lbl">Step 4 · 记忆 &amp; 模板调用</div>
+    <div class="ttl">读取对应 memory 文件 + templates/</div>
+    <div class="memgrid">
+      <div class="mem"><span class="fn">image_patterns.md</span>图片场景高频模式</div>
+      <div class="mem"><span class="fn">video_patterns.md</span>视频场景高频模式</div>
+      <div class="mem"><span class="fn">ui_design_spec.md</span>UI 设计规范（完整 / 简 / 极简）</div>
+      <div class="mem"><span class="fn">interaction_patterns.md</span>交互动效模式积累</div>
+      <div class="mem"><span class="fn">project_patterns.md</span>产品顾问模式积累</div>
+      <div class="mem"><span class="fn">learned-keywords.json</span>用户自定义触发词</div>
+    </div>
+  </div>
+  <div class="arrow">↓</div>
+
+  <!-- Step 5 -->
+  <div class="divider">Step 5 · 按场景格式结构化输出</div>
+  <div class="formats">
+    <div class="fmt fmt-img">
+      <div class="fh">🎨 图片</div>
+      <ol>
+        <li>目标理解</li>
+        <li>画面核心设定</li>
+        <li>风格 / 构图 / 光影</li>
+        <li>主提示词 📦</li>
+        <li>可选增强词 📦</li>
+        <li>替代方向</li>
+      </ol>
+    </div>
+    <div class="fmt fmt-ui">
+      <div class="fh">🖥 UI · A 初始</div>
+      <ol>
+        <li>页面目标</li>
+        <li>整体布局</li>
+        <li>核心模块 + 真实数据</li>
+        <li>信息层级</li>
+        <li>视觉风格</li>
+        <li>基础规范</li>
+        <li>Make / Stitch 提示词 📦</li>
+      </ol>
+    </div>
+    <div class="fmt fmt-ui2">
+      <div class="fh">🖥 UI · B 迭代</div>
+      <ol>
+        <li>修改目标</li>
+        <li>定位模块</li>
+        <li>交互行为变化</li>
+        <li>信息层级调整</li>
+        <li>状态说明</li>
+        <li>约束说明</li>
+        <li>修改提示词 📦</li>
+      </ol>
+    </div>
+    <div class="fmt fmt-fx">
+      <div class="fh">✨ 动效</div>
+      <ol>
+        <li>效果目标</li>
+        <li>触发逻辑</li>
+        <li>动画过程</li>
+        <li>状态变化</li>
+        <li>交互反馈</li>
+        <li>性能要求</li>
+        <li>实现描述 📦</li>
+      </ol>
+    </div>
+    <div class="fmt fmt-vid">
+      <div class="fh">🎬 视频</div>
+      <ol>
+        <li>目标理解</li>
+        <li>主体与场景</li>
+        <li>动作设计</li>
+        <li>镜头 / 节奏 / 转场</li>
+        <li>视频提示词 📦</li>
+        <li>分镜建议</li>
+      </ol>
+    </div>
+    <div class="fmt fmt-prj">
+      <div class="fh">📋 产品顾问</div>
+      <ol>
+        <li>选模式 A~F</li>
+        <li>逐步追问</li>
+        <li>每轮只问 1 问</li>
+        <li>路径标记进度</li>
+        <li>不知道时推断继续</li>
+        <li>存档可续写</li>
+        <li>P0/P1/P2 分级输出</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="codebox-hint">📦 = 放入代码块，可直接给 AI 使用</div>
+  <div class="special">🖥 UI P2 自动判断子模式：给文案 / 设计图 / 描述词 → 子模式 A（含基础规范）；已发出要改某块 → 子模式 B（跳过字体字号，聚焦交互 · 状态 · 层级 · 约束）</div>
+
+  <div class="arrow" style="margin-top: 10px;">↓</div>
+
+  <!-- 输出 -->
+  <div class="output">
+    <div class="out-pill">✅ 可直接使用的结构化 AI 提示词</div>
+  </div>
+
+</div>
+</body>
+</html>
