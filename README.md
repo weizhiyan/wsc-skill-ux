@@ -8,8 +8,8 @@
 
 ## 🎨 WSC 系列成员
 
-- **[wsc-image](https://github.com/weizhiyan/wsc-image)** — AI 视觉创意专家
-- **[wsc-ux](https://github.com/weizhiyan/wsc-idea)** — UI/UX 设计与需求专家
+- **[wsc-skill-image](https://github.com/weizhiyan/wsc-image)** — AI 视觉创意专家
+- **[wsc-skill-ux](https://github.com/weizhiyan/wsc-idea)** — UI/UX 设计与需求专家
 
 ---
 
