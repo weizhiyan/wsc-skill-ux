@@ -1,68 +1,62 @@
-# wsc-ux
+# wsc-skill-ux — AI UI/UX 专家
 
-> 专业的 UI 设计提示词生成与交互需求深度优化专家。
+[![Claude Code](https://img.shields.io/badge/Claude-Code-black?logo=anthropic)](https://claude.ai/code)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-将模糊的产品想法转化为像素级精准的 UI 设计描述。无论是为 Figma Make/Stitch 生成设计指令，还是梳理复杂的系统交互逻辑，wsc-ux 都能提供工业级的专业输出。
+> 将模糊的产品想法，转化为像素级精准的 UI 设计描述。
 
----
-
-## 🎨 WSC 系列成员
-
-- **[wsc-image](https://github.com/weizhiyan/wsc-image)** — AI 视觉创意专家
-- **[wsc-ux](https://github.com/weizhiyan/wsc-idea)** — UI/UX 设计与需求专家
+不管是为 Figma Make/Stitch 生成设计指令，还是梳理复杂的系统交互逻辑，wsc-ux 都能提供工业级的专业输出。
 
 ---
 
-## 核心能力
+## 🎯 核心能力
 
-### 1. 交互需求深度优化 (UX Refinement)
-- **口语转规格**：将「点击这个按钮跳出菜单」转化为包含动效曲线 (Easing)、触发延迟 (Latency) 和反馈强度 (Feedback) 的专业规格说明。
-- **状态全覆盖**：自动补全 Default, Hover, Active, Disabled, Loading, Error 等所有交互状态。
-- **逻辑梳理**：识别业务逻辑中的歧义，通过弹窗引导用户确认最优路径。
+wsc-ux 通过两个核心阶段，将你的口语需求转化为生产级方案：
 
-### 2. UI 界面提示词生成 (UI Prompting)
-- **Make / Stitch 优化**：针对 Figma AI 插件深度优化，生成的提示词包含明确的布局容器 (Autolayout)、间距配置 (Spacing) 和原子化组件拆解。
-- **信息层级设计**：自动规划页面的视觉重心，平衡功能性与美学。
-- **模拟真实数据**：在提示词中预填符合场景的真实占位数据，而非简单的 Lorem Ipsum。
+### Part A. 交互需求深度优化 (UX Refinement)
+- **口语转规格**：将「点击按钮跳出菜单」转化为包含动效曲线 (Easing) 和触发延迟的专业说明。
+- **状态全覆盖**：自动补全 Hover, Active, Loading, Error 等所有关键交互状态。
+- **边界条件梳理**：识别逻辑歧义，通过弹窗引导你确认最优路径。
 
-### 3. 智能引导系统
-- **动态弹窗**：当描述不全时，自动弹出包含「配色方案」、「圆角风格」、「字体偏好」等维度的选择题。
-- **设计风格迁移**：支持通过参考图提取 UI 规范，并应用到新功能设计中。
+### Part B. UI 界面提示词生成 (UI Prompting)
+- **Make / Stitch 深度优化**：生成的提示词包含明确的布局容器 (Autolayout)、原子化组件和真实占位数据。
+- **内置视觉规范**：自动应用基于 8px 栅格系统的专业间距、颜色体系和圆角标准。
+- **风格迁移**：支持从参考图提取 UI 规范，并直接应用到新功能设计中。
 
 ---
 
-## 运行架构
+## 🚀 三大应用场景
 
-### 1. 需求解析阶段
-识别用户输入的是“视觉设计需求”还是“逻辑梳理需求”。
-- **视觉需求**：走 UI Prompting 流程。
-- **逻辑需求**：走 UX Specification 流程。
-
-### 2. 专业参数介入
-引入 HSBA 色彩模型、Bézier 动效参数、原子化设计原则 (Atomic Design) 进行增强。
-
-### 3. 结构化输出
-输出分为：场景目标、模块拆解、状态逻辑、Make/Stitch 专用代码块。
+| 场景 | 触发方式 | 输出结果 |
+| :--- | :--- | :--- |
+| **1. 碎片梳理** | 发送零碎想法、动画或布局描述 | 结构化交互/动效规格文档 |
+| **2. 提示词补全** | 给出粗糙结构，说「帮我补充细节」 | 完整的 Make/Stitch 系统提示词 |
+| **3. 产品顾问** | 说「帮我分析」「评审一下现有流程」 | 触发顾问模式选择 (A~F) 并深度分析 |
 
 ---
 
-## 文件结构
+## 🛠️ 怎么使用
 
-```
-wsc-ux/
-├── SKILL.md                    # 核心 Skill 文件，定义 UX 规则
-├── README.md                   # 本文档
-├── templates/
-│   └── ui_design.md            # UI 设计输出模板
-└── memory/
-    ├── ui_prompts.md           # 视觉风格经验库
-    ├── interaction_refine.md   # 交互参数习惯
-    └── ui_design_spec.md       # 基础设计规格规范
+### 1. 安装 (Claude Code)
+将 `wsc-ux` 文件夹放入你的技能目录：
+```bash
+~/.claude/skills/wsc-ux/
 ```
 
+### 2. 触发
+直接说出你的设计想法或痛点，AI 会自动识别场景并按规格输出。
+
+### 3. 协作
+生成的交互规格可直接交由 `wsc-ui-builder` 实现，设计的 UI 提示词可直接粘贴进 Figma AI 插件。
+
 ---
 
-## 版本历史
+## 🎨 WSC Creative Suite 系列
 
-- **v3.2** — 2026-04-14：重构为 WSC 系列成员。全面升级交互优化逻辑，支持 Make/Stitch 深度适配。
-- **v3.0** — 2026-04-02：从 wsc-idea 进化，专注 UX 领域。
+- **[wsc-skill-image](https://github.com/weizhiyan/wsc-skill-image)** — AI 视觉创意专家
+- **[wsc-skill-ux](https://github.com/weizhiyan/wsc-idea)** — UI/UX 设计与需求专家（当前）
+
+---
+
+> **Design with logic, refine with beauty.**
+> —— *WSC Creative Suite*
